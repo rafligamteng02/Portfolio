@@ -1,22 +1,10 @@
 'use client'
 
-import { useState } from "react"
 import { motion } from "framer-motion"
-import { Send, Mail, MapPin } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import { MessageCircle, Mail, MapPin } from "lucide-react"
 import { FadeUp, StaggerContainer, StaggerItem } from "@/components/animations"
 
 export function Contact() {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [message, setMessage] = useState("")
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log({ name, email, message })
-  }
-
   return (
     <section id="contact" className="border-t border-border bg-background py-24">
       <div className="mx-auto max-w-6xl px-6">
@@ -33,11 +21,26 @@ export function Contact() {
           <StaggerItem>
             <div className="space-y-8">
               <p className="text-base leading-relaxed text-muted-foreground">
-                Have a project in mind or just want to say hi? Fill out the form
-                and I&apos;ll get back to you as soon as possible.
+                Have a project in mind or just want to say hi? Feel free to
+                reach out through any of the channels below.
               </p>
 
               <div className="space-y-4">
+                <motion.a
+                  href="https://wa.me/6282133277356"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ x: 4 }}
+                  className="flex items-center gap-3 group"
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted group-hover:bg-green-500/10 transition-colors">
+                    <MessageCircle className="h-5 w-5 text-muted-foreground group-hover:text-green-500 transition-colors" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground">WhatsApp</p>
+                    <p className="text-sm text-muted-foreground">+62 821-3327-7356</p>
+                  </div>
+                </motion.a>
                 <motion.div
                   whileHover={{ x: 4 }}
                   className="flex items-center gap-3"
@@ -47,7 +50,7 @@ export function Contact() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-foreground">Email</p>
-                    <p className="text-sm text-muted-foreground">rafli@example.com</p>
+                    <p className="text-sm text-muted-foreground">raflianwar21@gmail.com</p>
                   </div>
                 </motion.div>
                 <motion.div
@@ -59,7 +62,7 @@ export function Contact() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-foreground">Location</p>
-                    <p className="text-sm text-muted-foreground">Indonesia</p>
+                    <p className="text-sm text-muted-foreground">Solo, Indonesia</p>
                   </div>
                 </motion.div>
               </div>
@@ -67,45 +70,27 @@ export function Contact() {
           </StaggerItem>
 
           <StaggerItem>
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <motion.div whileHover={{ scale: 1.01 }}>
-                <Input
-                  placeholder="Your Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="border-border bg-background text-foreground placeholder:text-muted-foreground transition-all focus:border-foreground/30"
-                  required
-                />
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.01 }}>
-                <Input
-                  type="email"
-                  placeholder="Your Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="border-border bg-background text-foreground placeholder:text-muted-foreground transition-all focus:border-foreground/30"
-                  required
-                />
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.01 }}>
-                <Textarea
-                  placeholder="Your Message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  className="min-h-32 border-border bg-background text-foreground placeholder:text-muted-foreground transition-all focus:border-foreground/30"
-                  required
-                />
-              </motion.div>
-              <motion.button
-                type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-foreground px-8 text-sm font-medium text-background transition-colors hover:bg-foreground/90"
-              >
-                <Send size={16} />
-                Send Message
-              </motion.button>
-            </form>
+            <motion.a
+              href="https://wa.me/6282133277356"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.02 }}
+              className="flex flex-col items-center justify-center rounded-2xl border border-border bg-card p-10 text-center transition-all hover:border-green-500/30 hover:shadow-lg group"
+            >
+              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-muted group-hover:bg-green-500/10 transition-colors">
+                <MessageCircle className="h-8 w-8 text-muted-foreground group-hover:text-green-500 transition-colors" />
+              </div>
+              <h3 className="mb-2 text-xl font-semibold text-foreground">
+                Contact Me via WhatsApp
+              </h3>
+              <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
+                Fast response. Just tap and say hi!
+              </p>
+              <span className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-green-500 px-8 text-sm font-medium text-white transition-colors hover:bg-green-600">
+                <MessageCircle size={16} />
+                Chat on WhatsApp
+              </span>
+            </motion.a>
           </StaggerItem>
         </StaggerContainer>
       </div>

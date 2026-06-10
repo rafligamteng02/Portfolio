@@ -1,7 +1,9 @@
 'use client'
 
+import { useState } from "react"
+import Image from "next/image"
 import { motion } from "framer-motion"
-import { ExternalLink, Globe } from "lucide-react"
+import { ExternalLink } from "lucide-react"
 import {
   Card,
   CardContent,
@@ -13,32 +15,35 @@ import { FadeUp, StaggerContainer, StaggerItem } from "@/components/animations"
 
 const projects = [
   {
-    title: "Project Alpha",
-    desc: "A full-stack web application built with Next.js and TypeScript. Features real-time updates and a modern UI.",
-    tags: ["Next.js", "TypeScript", "Tailwind"],
-    image: "/project-alpha.jpg",
-    live: "#",
-    repo: "#",
+    title: "PT. Yusano Jaya Pratama",
+    desc: "Company profile untuk perusahaan supplier & trading di sektor Oil & Gas, Mining, dan Industrial. Multi-page SPA dengan admin panel CRUD, bilingual (ID/EN), dark mode, serta integrasi Supabase untuk manajemen produk dan pesan.",
+    tags: ["React", "Vite", "Supabase", "react-router-dom", "CSS"],
+    image: "/image.png",
+    live: "https://yjp-nine.vercel.app/",
   },
   {
-    title: "Project Beta",
-    desc: "An e-commerce platform with payment integration, user authentication, and an admin dashboard.",
-    tags: ["React", "Node.js", "MongoDB"],
-    image: "/project-beta.jpg",
+    title: "NaturaSeven",
+    desc: "Landing page & e-commerce untuk PT Tujuh Pilar Mulia — premium herbal supplement Channa Seven. Multi-page dengan product catalog, admin panel CRUD, autentikasi Supabase, news section, contact form, dan floating WhatsApp button.",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Prisma", "PostgreSQL", "Supabase", "shadcn/ui", "Framer Motion"],
+    image: "/project2.png",
     live: "#",
-    repo: "#",
   },
   {
-    title: "Project Gamma",
-    desc: "A real-time collaboration tool for teams. Built with WebSockets and a microservices architecture.",
-    tags: ["Next.js", "WebSocket", "Docker"],
-    image: "/project-gamma.jpg",
+    title: "PT. Phytomed Neo Farma",
+    desc: "Company profile untuk PT. Phytomed Neo Farma — perusahaan maklon herbal di Sukoharjo. Multi-page dengan product catalog, admin CRUD, contact management, carousel testimonials, Google Maps, dan WhatsApp integration.",
+    tags: ["Laravel", "PHP", "Blade", "Tailwind CSS", "MySQL", "Vite", "Swiper.js", "AOS"],
+    image: "/project3.png",
     live: "#",
-    repo: "#",
   },
 ]
 
 export function Projects() {
+  const [erroredImages, setErroredImages] = useState<Set<string>>(new Set())
+
+  const handleImageError = (image: string) => {
+    setErroredImages((prev) => new Set(prev).add(image))
+  }
+
   return (
     <section id="projects" className="border-t border-border bg-background py-24">
       <div className="mx-auto max-w-6xl px-6">
@@ -57,13 +62,23 @@ export function Projects() {
               <motion.div whileHover={{ y: -6 }} transition={{ duration: 0.3 }}>
                 <Card className="group overflow-hidden border border-border bg-card transition-all hover:border-foreground/20 hover:shadow-lg">
                   <motion.div
-                    className="aspect-video w-full bg-muted flex items-center justify-center"
+                    className="relative aspect-video w-full bg-muted flex items-center justify-center overflow-hidden"
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <span className="text-4xl font-bold text-muted-foreground/40 group-hover:text-muted-foreground/60 transition-colors">
-                      {project.title.charAt(0)}
-                    </span>
+                    {erroredImages.has(project.image) ? (
+                      <span className="text-4xl font-bold text-muted-foreground/40 group-hover:text-muted-foreground/60 transition-colors">
+                        {project.title.charAt(0)}
+                      </span>
+                    ) : (
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        className="object-cover"
+                        onError={() => handleImageError(project.image)}
+                      />
+                    )}
                   </motion.div>
                   <CardHeader className="pb-2">
                     <h3 className="text-lg font-semibold text-foreground">
@@ -87,24 +102,18 @@ export function Projects() {
                     </div>
                   </CardContent>
                   <CardFooter className="gap-3 border-t border-border pt-4">
-                    <motion.a
-                      href={project.live}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      <ExternalLink size={14} />
-                      Live
-                    </motion.a>
-                    <motion.a
-                      href={project.repo}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      <Globe size={14} />
-                      Source
-                    </motion.a>
+                    {project.live !== "#" && (
+                      <motion.a
+                        href={project.live}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+                      >
+                        <ExternalLink size={14} />
+                        Live
+                      </motion.a>
+                    )}
+
                   </CardFooter>
                 </Card>
               </motion.div>
