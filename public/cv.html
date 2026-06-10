@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV - Rafli Anwar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      color: #1a1a2e;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      padding: 0;
+      overflow: hidden;
+    }
+
+    /* HEADER */
+    .header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: #fff;
+      padding: 48px 48px 40px;
+      position: relative;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #e94560, #0f3460, #e94560);
+    }
+
+    .header h1 {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+
+    .header .role {
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.8);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .header .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .header .contact-row span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header .contact-row .sep {
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* CONTENT */
+    .content {
+      padding: 36px 48px 48px;
+    }
+
+    .section {
+      margin-bottom: 28px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #e94560;
+      margin-bottom: 14px;
+      border-bottom: 2px solid #f0f0f5;
+      padding-bottom: 8px;
+    }
+
+    .summary p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #444;
+    }
+
+    /* SKILLS */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    .skill-cat h4 {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .skill-tag {
+      display: inline-block;
+      font-size: 12px;
+      padding: 4px 12px;
+      background: #f0f0f5;
+      border-radius: 20px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    /* PROJECTS */
+    .project {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #f0f0f5;
+    }
+
+    .project:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .project-header h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+
+    .project-role {
+      font-size: 12px;
+      font-weight: 600;
+      color: #e94560;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .project-desc {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .project-tech span {
+      display: inline-block;
+      font-size: 11px;
+      padding: 3px 10px;
+      background: #e8e8f0;
+      border-radius: 12px;
+      color: #444;
+      font-weight: 500;
+    }
+
+    .project-tech .highlight {
+      background: #1a1a2e;
+      color: #fff;
+    }
+
+    .project-link {
+      font-size: 12px;
+      color: #0f3460;
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 4px;
+      display: inline-block;
+    }
+
+    .project-link:hover {
+      text-decoration: underline;
+    }
+
+    /* PRINT */
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+      .page {
+        box-shadow: none;
+        border-radius: 0;
+        width: 100%;
+        min-height: 100vh;
+      }
+      .header {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .header::after {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .skill-tag {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .project-tech span {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- HEADER -->
+    <div class="header">
+      <h1>RAFLI ANWAR</h1>
+      <div class="role">Full-Stack Developer</div>
+      <div class="contact-row">
+        <span>Solo, Indonesia</span>
+        <span class="sep">|</span>
+        <span>raflianwar21@gmail.com</span>
+        <span class="sep">|</span>
+        <span>+62 821-3327-7356</span>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+      <!-- SUMMARY -->
+      <div class="section summary">
+        <div class="section-title">Professional Summary</div>
+        <p>
+          Full-Stack Developer with hands-on experience building modern web applications
+          using React, Next.js, Laravel, and TypeScript. Skilled in delivering end-to-end
+          solutions — from landing pages and company profiles to e-commerce platforms with
+          admin dashboards, authentication, database integration, and REST APIs.
+          Focused on writing clean, maintainable code and turning client requirements into
+          polished digital products.
+        </p>
+      </div>
+
+      <!-- SKILLS -->
+      <div class="section">
+        <div class="section-title">Technical Skills</div>
+        <div class="skills-grid">
+          <div class="skill-cat">
+            <h4>Frontend</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">React</span>
+              <span class="skill-tag">Next.js</span>
+              <span class="skill-tag">TypeScript</span>
+              <span class="skill-tag">Tailwind CSS</span>
+              <span class="skill-tag">HTML/CSS</span>
+            </div>
+          </div>
+          <div class="skill-cat">
+            <h4>Backend</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">Node.js</span>
+              <span class="skill-tag">Express</span>
+              <span class="skill-tag">Laravel</span>
+              <span class="skill-tag">PHP</span>
+              <span class="skill-tag">REST APIs</span>
+            </div>
+          </div>
+          <div class="skill-cat">
+            <h4>Database &amp; Tools</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">PostgreSQL</span>
+              <span class="skill-tag">MySQL</span>
+              <span class="skill-tag">MongoDB</span>
+              <span class="skill-tag">Prisma</span>
+              <span class="skill-tag">Supabase</span>
+              <span class="skill-tag">Git</span>
+              <span class="skill-tag">Docker</span>
+              <span class="skill-tag">Figma</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div class="section">
+        <div class="section-title">Projects</div>
+
+        <div class="project">
+          <div class="project-header">
+            <h3>PT. Yusano Jaya Pratama</h3>
+            <span class="project-role">Full-Stack Developer</span>
+          </div>
+          <p class="project-desc">
+            Company profile untuk perusahaan supplier &amp; trading Oil &amp; Gas, Mining, dan
+            Industrial. Multi-page SPA dengan admin panel CRUD untuk manajemen produk dan pesan,
+            bilingual (Indonesia/Inggris), dark mode, serta integrasi Supabase untuk autentikasi
+            dan database.
+          </p>
+          <div class="project-tech">
+            <span>React</span>
+            <span>Vite</span>
+            <span>Supabase</span>
+            <span>react-router-dom</span>
+            <span>CSS</span>
+            <span class="highlight">Live</span>
+          </div>
+          <a class="project-link" href="https://yjp-nine.vercel.app/" target="_blank">yjp-nine.vercel.app</a>
+        </div>
+
+        <div class="project">
+          <div class="project-header">
+            <h3>NaturaSeven — PT. Tujuh Pilar Mulia</h3>
+            <span class="project-role">Full-Stack Developer</span>
+          </div>
+          <p class="project-desc">
+            Landing page &amp; e-commerce untuk produk herbal supplement Channa Seven.
+            Multi-page dengan product catalog yang dapat dicari dan difilter, admin panel CRUD,
+            autentikasi pengguna via Supabase Auth, news section, contact form, dan floating
+            WhatsApp button.
+          </p>
+          <div class="project-tech">
+            <span>Next.js</span>
+            <span>TypeScript</span>
+            <span>Tailwind CSS</span>
+            <span>Prisma</span>
+            <span>PostgreSQL</span>
+            <span>Supabase</span>
+            <span>shadcn/ui</span>
+            <span>Framer Motion</span>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-header">
+            <h3>PT. Phytomed Neo Farma</h3>
+            <span class="project-role">Full-Stack Developer</span>
+          </div>
+          <p class="project-desc">
+            Company profile untuk perusahaan maklon herbal di Sukoharjo. Multi-page dengan
+            product catalog dan detail produk, admin CRUD untuk produk/kategori/pesan,
+            contact management, carousel testimonials client, Google Maps integration, dan
+            WhatsApp ordering link.
+          </p>
+          <div class="project-tech">
+            <span>Laravel</span>
+            <span>PHP</span>
+            <span>Blade</span>
+            <span>Tailwind CSS</span>
+            <span>MySQL</span>
+            <span>Vite</span>
+            <span>Swiper.js</span>
+            <span>AOS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
