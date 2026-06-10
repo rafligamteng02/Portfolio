@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, useSpring, AnimatePresence } from 'framer-motion'
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
@@ -16,11 +16,21 @@ export const PillBase: React.FC = () => {
   const [hovering, setHovering] = useState(false)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const { theme, setTheme } = useTheme()
 
   useEffect(() => setMounted(true), [])
+
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0)
+  }, [])
+
+  const getExpandedWidth = useCallback(() => {
+    if (typeof window === 'undefined') return 640
+    return Math.min(640, window.innerWidth - 32)
+  }, [])
 
   const navItems: NavItem[] = [
     { label: 'Home', id: 'hero' },
@@ -32,19 +42,22 @@ export const PillBase: React.FC = () => {
 
   const pillWidth = useSpring(140, { stiffness: 220, damping: 25, mass: 1 })
   const pillShift = useSpring(0, { stiffness: 220, damping: 25, mass: 1 })
+  const [expandedManually, setExpandedManually] = useState(false)
 
   useEffect(() => {
-    if (hovering) {
+    if (hovering && !isTouchDevice) {
       setExpanded(true)
-      pillWidth.set(640)
+      pillWidth.set(getExpandedWidth())
       if (hoverTimeoutRef.current) {
         clearTimeout(hoverTimeoutRef.current)
       }
     } else {
-      hoverTimeoutRef.current = setTimeout(() => {
-        setExpanded(false)
-        pillWidth.set(140)
-      }, 600)
+      if (!expandedManually) {
+        hoverTimeoutRef.current = setTimeout(() => {
+          setExpanded(false)
+          pillWidth.set(140)
+        }, 600)
+      }
     }
 
     return () => {
@@ -52,15 +65,59 @@ export const PillBase: React.FC = () => {
         clearTimeout(hoverTimeoutRef.current)
       }
     }
-  }, [hovering, pillWidth])
+  }, [hovering, pillWidth, isTouchDevice, expandedManually])
 
-  const handleMouseEnter = () => setHovering(true)
-  const handleMouseLeave = () => setHovering(false)
+  useEffect(() => {
+    if (!expanded) {
+      setExpandedManually(false)
+    }
+  }, [expanded])
+
+  useEffect(() => {
+    if (!expanded || !isTouchDevice) return
+
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      const navEl = document.querySelector('nav')
+      if (navEl && !navEl.contains(e.target as Node)) {
+        setExpanded(false)
+        setExpandedManually(false)
+        pillWidth.set(140)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('touchstart', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('touchstart', handleClickOutside)
+    }
+  }, [expanded, isTouchDevice, pillWidth])
+
+  const handleMouseEnter = () => {
+    if (!isTouchDevice) setHovering(true)
+  }
+  const handleMouseLeave = () => {
+    if (!isTouchDevice) setHovering(false)
+  }
+
+  const handleNavClick = () => {
+    if (isTouchDevice) {
+      setExpandedManually(true)
+      setExpanded(true)
+      pillWidth.set(getExpandedWidth())
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current)
+      }
+    }
+  }
 
   const handleSectionClick = (sectionId: string) => {
     setIsTransitioning(true)
     setActiveSection(sectionId)
     setHovering(false)
+    setExpanded(false)
+    setExpandedManually(false)
+    pillWidth.set(140)
 
     const el = document.querySelector(`#${sectionId}`)
     el?.scrollIntoView({ behavior: 'smooth' })
@@ -229,13 +286,14 @@ export const PillBase: React.FC = () => {
     <motion.nav
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="relative rounded-full"
+      onClick={handleNavClick}
+      className="relative rounded-full cursor-pointer"
       style={{
         width: pillWidth,
         height: '56px',
         background: isDark ? darkBg : lightBg,
         boxShadow: currentShadow,
-        overflow: 'hidden',
+        overflow: expanded && isTouchDevice ? 'visible' : 'hidden',
         transition: 'box-shadow 0.3s ease-out',
       }}
     >
@@ -439,7 +497,7 @@ export const PillBase: React.FC = () => {
 
         {/* Expanded state */}
         {expanded && (
-          <div className="flex items-center justify-evenly w-full">
+          <div className="flex items-center justify-evenly w-full max-sm:gap-0.5 max-sm:px-2">
             {navItems.map((item, index) => {
               const isActive = item.id === activeSection
 
@@ -457,14 +515,14 @@ export const PillBase: React.FC = () => {
                   onClick={() => handleSectionClick(item.id)}
                   className="relative cursor-pointer transition-all duration-200"
                   style={{
-                    fontSize: isActive ? '15.5px' : '15px',
+                    fontSize: isTouchDevice ? '13px' : isActive ? '15.5px' : '15px',
                     fontWeight: isActive ? 680 : 510,
                     color: isActive ? textLight : textMuted,
                     textDecoration: 'none',
                     letterSpacing: '0.45px',
                     background: 'transparent',
                     border: 'none',
-                    padding: '10px 14px',
+                    padding: isTouchDevice ? '8px 8px' : '10px 14px',
                     outline: 'none',
                     whiteSpace: 'nowrap',
                     fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", Poppins, sans-serif',
@@ -500,8 +558,8 @@ export const PillBase: React.FC = () => {
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  padding: '6px',
-                  marginLeft: '4px',
+                  padding: isTouchDevice ? '4px' : '6px',
+                  marginLeft: isTouchDevice ? '0px' : '4px',
                   outline: 'none',
                 }}
                 whileHover={{ scale: 1.1 }}
@@ -509,9 +567,9 @@ export const PillBase: React.FC = () => {
                 aria-label="Toggle theme"
               >
                 {isDark ? (
-                  <Sun size={16} style={{ color: textMuted }} />
+                  <Sun size={isTouchDevice ? 14 : 16} style={{ color: textMuted }} />
                 ) : (
-                  <Moon size={16} style={{ color: textMuted }} />
+                  <Moon size={isTouchDevice ? 14 : 16} style={{ color: textMuted }} />
                 )}
               </motion.button>
             )}
