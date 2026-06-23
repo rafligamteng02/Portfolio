@@ -15,6 +15,13 @@ import { FadeUp, StaggerContainer, StaggerItem } from "@/components/animations"
 
 const projects = [
   {
+    title: "TIX - Web Ticketing",
+    desc: "Full-featured online event ticketing platform. Event organizers create & manage events with multiple ticket classes; customers browse, purchase tickets, and pay via Midtrans (bank transfer, e-wallet, QRIS, credit card). Includes digital tickets with QR codes, support ticket system with real-time notifications via Laravel Reverb, and role-based access control (admin, agent, customer).",
+    tags: ["Laravel", "Vue.js", "Inertia.js", "Tailwind CSS", "PostgreSQL", "Midtrans", "Laravel Reverb", "Vite"],
+    image: "/project4.png",
+    live: "#",
+  },
+  {
     title: "PT. Yusano Jaya Pratama",
     desc: "Company profile untuk perusahaan supplier & trading di sektor Oil & Gas, Mining, dan Industrial. Multi-page SPA dengan admin panel CRUD, bilingual (ID/EN), dark mode, serta integrasi Supabase untuk manajemen produk dan pesan.",
     tags: ["React", "Vite", "Supabase", "react-router-dom", "CSS"],
@@ -26,13 +33,6 @@ const projects = [
     desc: "Landing page & e-commerce untuk PT Tujuh Pilar Mulia — premium herbal supplement Channa Seven. Multi-page dengan product catalog, admin panel CRUD, autentikasi Supabase, news section, contact form, dan floating WhatsApp button.",
     tags: ["Next.js", "TypeScript", "Tailwind CSS", "Prisma", "PostgreSQL", "Supabase", "shadcn/ui", "Framer Motion"],
     image: "/project2.png",
-    live: "#",
-  },
-  {
-    title: "PT. Phytomed Neo Farma",
-    desc: "Company profile untuk PT. Phytomed Neo Farma — perusahaan maklon herbal di Sukoharjo. Multi-page dengan product catalog, admin CRUD, contact management, carousel testimonials, Google Maps, dan WhatsApp integration.",
-    tags: ["Laravel", "PHP", "Blade", "Tailwind CSS", "MySQL", "Vite", "Swiper.js", "AOS"],
-    image: "/project3.png",
     live: "#",
   },
 ]
